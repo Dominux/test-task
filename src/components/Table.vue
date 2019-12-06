@@ -1,18 +1,34 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="jobbers"
-    :sort-by="['name', 'companyName', 'positionName', 'hireDate', 'fireDate', 'salary', 'base', 'advance', 'byHours']"
-    :sort-desc="[false, true]"
-    multi-sort
-    class="elevation-1"
-  ></v-data-table>
+    <v-card>
+        <v-card-title>
+          Занимаемые должности
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Поиск по сотруднику"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table
+          :headers="headers"
+          :items="jobbers"
+          :search="search"
+          :sort-by="['name', 'companyName', 'positionName', 'hireDate', 'fireDate', 'salary', 'base', 'advance', 'byHours']"
+          :sort-desc="[false, true]"
+          multi-sort
+          class="elevation-1"
+        ></v-data-table>
+    </v-card>
 </template>
 
 <script>
     export default {
         data(){
             return {
+
+                search: '',
 
                 headers: [
                   {
