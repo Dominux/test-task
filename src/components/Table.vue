@@ -22,7 +22,7 @@
         >
             
             <template v-slot:item="{ item }">
-                <tr>
+                <tr v-bind:class="{'fire-row': item.fireDate}">
                     <td>
                         <v-checkbox 
                             v-model="selected" 
@@ -47,8 +47,11 @@
     </v-card>
 </template>
 
+
+
 <script>
     export default {
+
         data(){
             return {
 
@@ -160,5 +163,12 @@
                 ]
             }
         },
+
     }
 </script>
+
+<style>
+    .fire-row {
+        background-color: red;
+    }
+</style>
