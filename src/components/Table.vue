@@ -16,10 +16,24 @@
           :items="jobbers"
           :search="search"
           :sort-by="['name', 'companyName', 'positionName', 'hireDate', 'fireDate', 'salary', 'base', 'advance', 'byHours']"
-          :sort-desc="[false, true]"
-          multi-sort
           class="elevation-1"
-        ></v-data-table>
+        >
+            
+            <template v-slot:item="{ item }">
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.companyName }}</td>
+                    <td>{{ item.positionName }}</td>
+                    <td>{{ item.hireDate }}</td>
+                    <td>{{ item.fireDate }}</td>
+                    <td>{{ item.salary }}руб ({{ item.fraction }} %)</td>
+                    <td>{{ item.base }}</td>
+                    <td>{{ item.advance }}</td>
+                    <td>{{ item.byHours }}</td>
+                </tr>
+            </template>
+
+        </v-data-table>
     </v-card>
 </template>
 
@@ -28,7 +42,7 @@
         data(){
             return {
 
-                search: '',
+                search: null,
 
                 headers: [
                   {
@@ -40,8 +54,7 @@
                   { text: 'Позиция', value: 'positionName' },
                   { text: 'Дата найма', value: 'hireDate' },
                   { text: 'Дата увольнения', value: 'fireDate' },
-                  // { text: 'Зарплата', value: '${salary}руб (${fraction}%)' },
-                  { text: 'Зарплата', value: ('salary'.toString() + 'руб (' + 'fraction'.toString() + '%)' ) },
+                  { text: 'Зарплата', value: 'salary'},
                   { text: 'База', value: 'base' },
                   { text: 'Аванс', value: 'advance' },
                   { text: 'Почасовая', value: 'byHours' },
