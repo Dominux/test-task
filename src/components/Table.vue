@@ -15,8 +15,6 @@
           :headers="headers"
           :items="jobbers"
           :search="search"
-          :sort-by="['name', 'companyName', 'positionName', 'hireDate', 'fireDate', 'salary', 'base', 'advance', 'byHours']"
-          :sort-desc="[false, true]"
           item-key="name"
           v-model="selected"
           show-select
@@ -64,14 +62,14 @@
                     align: 'left',
                     value: 'name',
                   },
-                  { text: 'Название компании', value: 'companyName' },
-                  { text: 'Позиция', value: 'positionName' },
-                  { text: 'Дата найма', value: 'hireDate' },
-                  { text: 'Дата увольнения', value: 'fireDate' },
-                  { text: 'Зарплата', value: 'salary'},
-                  { text: 'База', value: 'base' },
-                  { text: 'Аванс', value: 'advance' },
-                  { text: 'Почасовая', value: 'byHours' },
+                  { text: 'Название компании', value: 'companyName',  filterable: false },
+                  { text: 'Позиция',           value: 'positionName', filterable: false },
+                  { text: 'Дата найма',        value: 'hireDate',     filterable: false },
+                  { text: 'Дата увольнения',   value: 'fireDate',     filterable: false },
+                  { text: 'Зарплата',          value: 'salary',       filterable: false },
+                  { text: 'База',              value: 'base',         filterable: false },
+                  { text: 'Аванс',             value: 'advance',      filterable: false },
+                  { text: 'Почасовая',         value: 'byHours',      filterable: false },
                 ],
 
                 jobbers: [
