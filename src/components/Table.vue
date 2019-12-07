@@ -1,30 +1,42 @@
 <template>
     <v-card>
         <v-card-title>
-          Занимаемые должности
-          <v-spacer></v-spacer>
-          <v-text-field
-            v-model="search"
-            append-icon="search"
-            label="Поиск по сотруднику"
-            single-line
-            hide-details
-          ></v-text-field>
+            Занимаемые должности
+            <v-spacer></v-spacer>
+            <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Поиск по сотруднику"
+                single-line
+                hide-details
+            ></v-text-field>
         </v-card-title>
+        
+        <v-container fluid>
+            <v-layout justify-end>
+                <v-checkbox 
+                    color="green" 
+                    label="Показывать уволенных"
+                    v-model="showFiredJobbers" 
+                />
+            </v-layout>
+        </v-container>  
+
         <v-data-table
-          :headers="headers"
-          :items="jobbers"
-          :search="search"
-          item-key="name"
-          v-model="selected"
-          show-select
-          class="elevation-1"
+            :headers="headers"
+            :items="jobbers"
+            :search="search"
+            item-key="name"
+            v-model="selected"
+            show-select
+            class="elevation-1"
         >
             
             <template v-slot:item="{ item }">
                 <tr v-bind:class="{'fire-row': item.fireDate}">
                     <td>
                         <v-checkbox 
+                            color="green"
                             v-model="selected" 
                             :value="item" 
                             style="margin: 0px; padding: 0px" 
@@ -37,9 +49,16 @@
                     <td>{{ item.hireDate }}</td>
                     <td>{{ item.fireDate }}</td>
                     <td>{{ item.salary }}₽ ({{ item.fraction }}%)</td>
-                    <td>{{ item.base }}</td>
-                    <td>{{ item.advance }}</td>
-                    <td>{{ item.byHours }}</td>
+                    <td>{{ item.base }}₽</td>
+                    <td>{{ item.advance }}₽</td>
+                    <td>
+                        <v-checkbox 
+                            color="green"
+                            v-model="item.byHours" 
+                            style="margin: 0px; padding: 0px" 
+                            hide-details 
+                        />
+                    </td>
                 </tr>
             </template>
 
@@ -54,27 +73,9 @@
 
         data(){
             return {
-
+                showFiredJobbers: false,
                 search: null,
-
                 selected: [],
-
-                headers: [
-                  {
-                    text: 'Сотрудник',
-                    align: 'left',
-                    value: 'name',
-                  },
-                  { text: 'Название компании', value: 'companyName',  filterable: false },
-                  { text: 'Позиция',           value: 'positionName', filterable: false },
-                  { text: 'Дата найма',        value: 'hireDate',     filterable: false },
-                  { text: 'Дата увольнения',   value: 'fireDate',     filterable: false },
-                  { text: 'Зарплата',          value: 'salary',       filterable: false },
-                  { text: 'База',              value: 'base',         filterable: false },
-                  { text: 'Аванс',             value: 'advance',      filterable: false },
-                  { text: 'Почасовая',         value: 'byHours',      filterable: false },
-                ],
-
                 jobbers: [
                     {
                         name: 'Джордж Вашингтон',
@@ -164,11 +165,50 @@
             }
         },
 
+        computed: {
+
+            headers() {
+                return [
+                    {
+                        text: 'Сотрудник',
+                        align: 'left',
+                        value: 'name',
+                    },
+                    { text: 'Название компании', value: 'companyName',  filterable: false },
+                    { text: 'Позиция',           value: 'positionName', filterable: false },
+                    { text: 'Дата найма',        value: 'hireDate',     filterable: false },
+                    { 
+                        text: 'Дата увольнения',   
+                        value: 'fireDate',
+                        filter: function() {
+                            let kek = !this.fireDate;
+                            return kek;
+                        },
+                    },
+                    { text: 'Зарплата',          value: 'salary',       filterable: false },
+                    { text: 'База',              value: 'base',         filterable: false },
+                    { text: 'Аванс',             value: 'advance',      filterable: false },
+                    { text: 'Почасовая',         value: 'byHours',      filterable: false },
+                ]
+            },
+
+        },
+
+        methods: {
+
+            filterFiredJobbers(value, search, item) {
+                return !item.fireDate || this.showFiredJobbers
+            },
+
+        },
+
     }
 </script>
 
+
+
 <style>
     .fire-row {
-        background-color: red;
+        background-color: salmon;
     }
 </style>
