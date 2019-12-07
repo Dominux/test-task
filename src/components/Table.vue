@@ -16,17 +16,29 @@
           :items="jobbers"
           :search="search"
           :sort-by="['name', 'companyName', 'positionName', 'hireDate', 'fireDate', 'salary', 'base', 'advance', 'byHours']"
+          :sort-desc="[false, true]"
+          item-key="name"
+          v-model="selected"
+          show-select
           class="elevation-1"
         >
             
             <template v-slot:item="{ item }">
                 <tr>
+                    <td>
+                        <v-checkbox 
+                            v-model="selected" 
+                            :value="item" 
+                            style="margin: 0px; padding: 0px" 
+                            hide-details 
+                        />
+                    </td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.companyName }}</td>
                     <td>{{ item.positionName }}</td>
                     <td>{{ item.hireDate }}</td>
                     <td>{{ item.fireDate }}</td>
-                    <td>{{ item.salary }}руб ({{ item.fraction }} %)</td>
+                    <td>{{ item.salary }}₽ ({{ item.fraction }}%)</td>
                     <td>{{ item.base }}</td>
                     <td>{{ item.advance }}</td>
                     <td>{{ item.byHours }}</td>
@@ -43,6 +55,8 @@
             return {
 
                 search: null,
+
+                selected: [],
 
                 headers: [
                   {
@@ -147,6 +161,6 @@
                     }
                 ]
             }
-        } 
+        },
     }
 </script>
