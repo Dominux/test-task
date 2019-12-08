@@ -1,73 +1,117 @@
 <template>
-    <v-card>
-        <v-card-title>
-            Занимаемые должности
-            <v-spacer></v-spacer>
-            <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Поиск по сотруднику"
-                single-line
-                hide-details
-            ></v-text-field>
-        </v-card-title>
-        
-        <v-container fluid>
-            <v-layout justify-end>
-                <v-checkbox 
-                    color="green" 
-                    label="Показывать уволенных"
-                    v-model="showFiredJobbers" 
-                />
-            </v-layout>
-        </v-container>  
+    <div>
 
-        <v-data-table
-            :headers="headers"
-            :items="jobbers"
-            :search="search"
-            item-key="name"
-            v-model="selected"
-            show-select
-            class="elevation-1"
-        >
+        <v-card >
+            <v-card-title>
+                Занимаемые должности
+                <v-spacer></v-spacer>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Поиск по сотруднику"
+                    single-line
+                    hide-details
+                ></v-text-field>
+            </v-card-title>
             
-            <template v-slot:item="{ item }">
-                <tr 
-                    v-bind:class="{'fire-row': item.fireDate}"
-                    v-if="filterFiredJobbers(item)"
-                >
-                    <td>
-                        <v-checkbox
-                            v-if="!item.fireDate"
-                            color="green"
-                            v-model="selected" 
-                            :value="item" 
-                            style="margin: 0px; padding: 0px" 
-                            hide-details 
-                        />
-                    </td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.companyName }}</td>
-                    <td>{{ item.positionName }}</td>
-                    <td>{{ item.hireDate }}</td>
-                    <td>{{ item.fireDate }}</td>
-                    <td>{{ item.salary }}₽ ({{ item.fraction }}%)</td>
-                    <td>{{ item.base }}₽</td>
-                    <td>{{ item.advance }}₽</td>
-                    <td>
-                        <v-checkbox 
-                            color="green"
-                            v-model="item.byHours" 
-                            style="margin: 0px; padding: 0px" 
-                            hide-details 
-                        />
-                    </td>
-                </tr>
-            </template>
+            <v-container fluid>
+                <v-layout justify-end>
+                    <v-checkbox 
+                        color="green" 
+                        label="Показывать уволенных"
+                        v-model="showFiredJobbers" 
+                    />
+                </v-layout>
+            </v-container>  
 
-        </v-data-table>
-    </v-card>
+            <v-data-table
+                :headers="headers"
+                :items="jobbers"
+                :search="search"
+                item-key="name"
+                v-model="selected"
+                show-select
+                class="elevation-1"
+            >
+                
+                <template v-slot:item="{ item }">
+                    <tr 
+                        v-bind:class="{'fire-row': item.fireDate}"
+                        v-if="filterFiredJobbers(item)"
+                    >
+                        <td>
+                            <v-checkbox
+                                v-if="!item.fireDate"
+                                color="green"
+                                v-model="selected" 
+                                :value="item" 
+                                style="margin: 0px; padding: 0px" 
+                                hide-details 
+                            />
+                        </td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.companyName }}</td>
+                        <td>{{ item.positionName }}</td>
+                        <td>{{ item.hireDate }}</td>
+                        <td>{{ item.fireDate }}</td>
+                        <td @click="openDialog('Зарплата', item.salary, item.name)">{{ item.salary }}₽ ({{ item.fraction }}%)</td>
+                        <td>{{ item.base }}₽</td>
+                        <td>{{ item.advance }}₽</td>
+                        <td>
+                            <v-checkbox 
+                                color="green"
+                                v-model="item.byHours" 
+                                style="margin: 0px; padding: 0px" 
+                                hide-details 
+                            />
+                        </td>
+                    </tr>
+                </template>
+
+            </v-data-table>
+        </v-card>
+
+        <v-container 
+            fluid
+            v-if="showDialog"
+        >
+            <v-card>
+                <template>
+                  <v-form
+                    ref="form"
+                    lazy-validation
+                  >
+                    <v-text-field
+                      v-bind:label="dialogVars.title"
+                      v-model="dialogVars.value"
+                      required
+                    ></v-text-field>
+
+                    <v-btn
+                      color="success"
+                      class="mr-4"
+                      @click="cancel()"
+                      text
+                    >
+                      Отменить
+                    </v-btn>
+
+                    <v-btn
+                      color="success"
+                      class="mr-4"
+                      @click="save()"
+                      text
+                    >
+                      Сохранить
+                    </v-btn>
+
+                  </v-form>
+                </template>
+            </v-card>
+        </v-container>  
+    
+    </div>
+
 </template>
 
 
@@ -78,6 +122,12 @@
         data(){
             return {
                 showFiredJobbers: true,
+                showDialog: false,
+                dialogVars: {
+                    title: null,
+                    value: null,
+                    name: null,
+                },
                 search: null,
                 selected: [],
                 headers: [
@@ -90,7 +140,7 @@
                     { text: 'Позиция',           value: 'positionName', filterable: false },
                     { text: 'Дата найма',        value: 'hireDate',     filterable: false },
                     { text: 'Дата увольнения',   value: 'fireDate',     filterable: false },
-                    { text: 'Зарплата',          value: 'salary',       filterable: false },
+                    { text: 'Ставка',            value: 'salary',       filterable: false },
                     { text: 'База',              value: 'base',         filterable: false },
                     { text: 'Аванс',             value: 'advance',      filterable: false },
                     { text: 'Почасовая',         value: 'byHours',      filterable: false },
@@ -185,9 +235,32 @@
         },
 
         methods: {
-            filterFiredJobbers(item) {
+            filterFiredJobbers (item) {
                 return !item.fireDate || this.showFiredJobbers
             },
+
+            openDialog (title, value, name) {
+                this.showDialog       = true;
+
+                this.dialogVars.title = title;
+                this.dialogVars.value = value;
+                this.dialogVars.name  = name;
+            },
+
+            save () {
+                for (var i = 0; i < this.jobbers.length; i++) {
+                    if (this.jobbers[i].name == this.dialogVars.name) {
+                        this.jobbers[i].salary = this.dialogVars.value;
+                        this.showDialog = false;
+                        break;
+                    }
+                }
+            },
+
+            cancel () {
+                this.showDialog = false;
+            },
+
         },
 
     }
