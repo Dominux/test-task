@@ -89,7 +89,7 @@
                     { text: 'Название компании', value: 'companyName',  filterable: false },
                     { text: 'Позиция',           value: 'positionName', filterable: false },
                     { text: 'Дата найма',        value: 'hireDate',     filterable: false },
-                    { text: 'Дата увольнения',   value: 'fireDate' },
+                    { text: 'Дата увольнения',   value: 'fireDate',     filterable: false },
                     { text: 'Зарплата',          value: 'salary',       filterable: false },
                     { text: 'База',              value: 'base',         filterable: false },
                     { text: 'Аванс',             value: 'advance',      filterable: false },
