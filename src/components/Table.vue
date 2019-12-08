@@ -38,7 +38,8 @@
                     v-if="filterFiredJobbers(item)"
                 >
                     <td>
-                        <v-checkbox 
+                        <v-checkbox
+                            v-if="!item.fireDate"
                             color="green"
                             v-model="selected" 
                             :value="item" 
