@@ -33,7 +33,10 @@
         >
             
             <template v-slot:item="{ item }">
-                <tr v-bind:class="{'fire-row': item.fireDate}">
+                <tr 
+                    v-bind:class="{'fire-row': item.fireDate}"
+                    v-if="filterFiredJobbers(item)"
+                >
                     <td>
                         <v-checkbox 
                             color="green"
@@ -73,9 +76,24 @@
 
         data(){
             return {
-                showFiredJobbers: false,
+                showFiredJobbers: true,
                 search: null,
                 selected: [],
+                headers: [
+                    {
+                        text: 'Сотрудник',
+                        align: 'left',
+                        value: 'name',
+                    },
+                    { text: 'Название компании', value: 'companyName',  filterable: false },
+                    { text: 'Позиция',           value: 'positionName', filterable: false },
+                    { text: 'Дата найма',        value: 'hireDate',     filterable: false },
+                    { text: 'Дата увольнения',   value: 'fireDate' },
+                    { text: 'Зарплата',          value: 'salary',       filterable: false },
+                    { text: 'База',              value: 'base',         filterable: false },
+                    { text: 'Аванс',             value: 'advance',      filterable: false },
+                    { text: 'Почасовая',         value: 'byHours',      filterable: false },
+                ],
                 jobbers: [
                     {
                         name: 'Джордж Вашингтон',
@@ -165,41 +183,10 @@
             }
         },
 
-        computed: {
-
-            headers() {
-                return [
-                    {
-                        text: 'Сотрудник',
-                        align: 'left',
-                        value: 'name',
-                    },
-                    { text: 'Название компании', value: 'companyName',  filterable: false },
-                    { text: 'Позиция',           value: 'positionName', filterable: false },
-                    { text: 'Дата найма',        value: 'hireDate',     filterable: false },
-                    { 
-                        text: 'Дата увольнения',   
-                        value: 'fireDate',
-                        filter: function() {
-                            let kek = !this.fireDate;
-                            return kek;
-                        },
-                    },
-                    { text: 'Зарплата',          value: 'salary',       filterable: false },
-                    { text: 'База',              value: 'base',         filterable: false },
-                    { text: 'Аванс',             value: 'advance',      filterable: false },
-                    { text: 'Почасовая',         value: 'byHours',      filterable: false },
-                ]
-            },
-
-        },
-
         methods: {
-
-            filterFiredJobbers(value, search, item) {
+            filterFiredJobbers(item) {
                 return !item.fireDate || this.showFiredJobbers
             },
-
         },
 
     }
