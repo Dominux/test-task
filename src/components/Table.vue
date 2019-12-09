@@ -55,23 +55,23 @@
                         <td>{{ item.hireDate }}</td>
                         <td>{{ item.fireDate }}</td>
                         <td @click="openDialog([
-                            { column: 'Зарплата', name:  item.name },
-                            { valueName: 'salary',  value: item.salary   },
+                            { column: 'Зарплата', name: item.name, enable: !item.fireDate },
+                            { valueName: 'salary',   value: item.salary   },
                             { valueName: 'fraction', value: item.fraction }
                             ])"
                         >
                             {{ item.salary }}₽ ({{ item.fraction }}%)
                         </td>
                         <td @click="openDialog([
-                            { column: 'База', name:  item.name },
-                            { valueName: 'base',  value: item.base },
+                            { column: 'База', name: item.name, enable: !item.fireDate },
+                            { valueName: 'base', value: item.base },
                             ])"
                         >
                             {{ item.base }}₽
                         </td>
                         <td @click="openDialog([
-                            { column: 'Аванс', name:  item.name },
-                            { valueName: 'advance',  value: item.advance },
+                            { column: 'Аванс', name: item.name, enable: !item.fireDate },
+                            { valueName: 'advance', value: item.advance },
                             ])"
                         >
                             {{ item.advance }}₽
@@ -81,7 +81,8 @@
                                 color="green"
                                 v-model="item.byHours" 
                                 style="margin: 0px; padding: 0px" 
-                                hide-details 
+                                hide-details
+                                :disabled="item.fireDate"
                             />
                         </td>
                     </tr>
@@ -276,16 +277,20 @@
             },
 
             openDialog (arr) {
-                for (var i = 0; i < arr.length; i++) {
-                    if (i == 0){
-                        this.dialogVars[i].column    = arr[i].column;
-                        this.dialogVars[i].name      = arr[i].name;
-                    } else {
-                        this.dialogVars[i].valueName = arr[i].valueName;
-                        this.dialogVars[i].value     = arr[i].value;
+
+                if (arr[0].enable) {
+                    for (var i = 0; i < arr.length; i++) {
+                        if (i == 0){
+                            this.dialogVars[i].column    = arr[i].column;
+                            this.dialogVars[i].name      = arr[i].name;
+                        } else {
+                            this.dialogVars[i].valueName = arr[i].valueName;
+                            this.dialogVars[i].value     = arr[i].value;
+                        }
                     }
+                    this.showDialog = true;
                 }
-                this.showDialog = true;
+
             },
 
             save () {
