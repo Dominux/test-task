@@ -21,9 +21,15 @@
                         label="Показывать уволенных"
                         v-model="showFiredJobbers" 
                     />
-                    <v-btn class="mr-2 ml-2" color="success" dark>Принять на должность</v-btn>
+                    <v-btn 
+                        class="mr-2 ml-2" 
+                        color="green accent-2"
+                    >
+                        Принять на должность
+                    </v-btn>
                     <v-btn
                         class="mr-2 ml-2"
+                        color="green accent-2"
                         :disabled="isSelectedEmpty"
                     >
                         {{ fireLabel }}
@@ -97,50 +103,55 @@
 
             </v-data-table>
         </v-card>
-
+        
         <v-container 
             fluid
             v-if="showDialog"
         >
-            <v-card>
-                <template>
-                  <v-form
-                    ref="form"
-                    lazy-validation
-                  >
-                    <v-text-field
-                        v-bind:label="dialogVars[0].column"
-                        v-model="dialogVars[1].value"
-                        required
-                    ></v-text-field>
+            <v-card 
+                class="ma-10"
+                max-width="400"
+                raised
+            >
+                <v-card-text class="justify-center">
+                        <v-col>
+                            <v-row justify="center">
+                                <v-col cols="12" md="6">
+                                    <v-text-field
+                                        v-bind:label="dialogVars[0].column"
+                                        v-model="dialogVars[1].value"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col md="6">
+                                    <v-text-field
+                                        v-if="dialogVars[0].column == 'Зарплата'"
+                                        label="Процент"
+                                        v-model="dialogVars[2].value"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row justify="center">    
+                                <v-btn
+                                  color="success"
+                                  class="mr-4"
+                                  @click="cancel()"
+                                  text
+                                >
+                                  Отменить
+                                </v-btn>
 
-                    <v-text-field
-                        v-if="dialogVars[0].column == 'Зарплата'"
-                        label="Процент"
-                        v-model="dialogVars[2].value"
-                        required
-                    ></v-text-field>
+                                <v-btn
+                                  color="success"
+                                  class="mr-4"
+                                  @click="save()"
+                                  text
+                                >
+                                  Сохранить
+                                </v-btn>
+                            </v-row>
+                        </v-col>    
+                </v-card-text>
 
-                    <v-btn
-                      color="success"
-                      class="mr-4"
-                      @click="cancel()"
-                      text
-                    >
-                      Отменить
-                    </v-btn>
-
-                    <v-btn
-                      color="success"
-                      class="mr-4"
-                      @click="save()"
-                      text
-                    >
-                      Сохранить
-                    </v-btn>
-
-                  </v-form>
-                </template>
             </v-card>
         </v-container>  
     
