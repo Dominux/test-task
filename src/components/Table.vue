@@ -15,12 +15,19 @@
             </v-card-title>
             
             <v-container fluid>
-                <v-layout justify-end>
+                <v-layout justify-end align-center>
                     <v-checkbox 
                         color="green" 
                         label="Показывать уволенных"
                         v-model="showFiredJobbers" 
                     />
+                    <v-btn class="mr-2 ml-2" color="success" dark>Принять на должность</v-btn>
+                    <v-btn
+                        class="mr-2 ml-2"
+                        :disabled="isSelectedEmpty"
+                    >
+                        {{ fireLabel }}
+                    </v-btn>
                 </v-layout>
             </v-container>  
 
@@ -82,7 +89,7 @@
                                 v-model="item.byHours" 
                                 style="margin: 0px; padding: 0px" 
                                 hide-details
-                                :disabled="item.fireDate"
+                                :disabled="isDisabledByHours(item)"
                             />
                         </td>
                     </tr>
@@ -270,10 +277,33 @@
             }
         },
 
+        computed: {
+
+            fireLabel () {
+                if (this.selected.length <= 1) { 
+                    return "Снять с должности"
+                } else {
+                    return "Снять с должностей"
+                }
+            },
+
+            isSelectedEmpty () {
+                return this.selected.length === 0
+            },
+        },
+
         methods: {
 
             filterFiredJobbers (item) {
                 return !item.fireDate || this.showFiredJobbers
+            },
+
+            isDisabledByHours (item) {
+                if (item.fireDate) {
+                    return true
+                } else {
+                    return false
+                }
             },
 
             openDialog (arr) {
@@ -289,6 +319,8 @@
                         }
                     }
                     this.showDialog = true;
+                } else {
+                    this.showDialog = false;
                 }
 
             },
