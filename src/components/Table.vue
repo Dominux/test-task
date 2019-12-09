@@ -29,7 +29,7 @@
                     </v-btn>
                     <v-btn
                         class="mr-2 ml-2"
-                        color="green accent-2"
+                        color="red accent-1"
                         :disabled="isSelectedEmpty"
                     >
                         {{ fireLabel }}
