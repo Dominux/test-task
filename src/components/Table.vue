@@ -35,11 +35,13 @@
                         {{ fireLabel }}
                     </v-btn>
                 </v-layout>
-            </v-container>  
+            </v-container>
+
+            <div>{{ sel }}</div>  
 
             <v-data-table
                 :headers="headers"
-                :items="jobbers"
+                :items="currentJobbers"
                 :search="search"
                 item-key="name"
                 v-model="selected"
@@ -48,10 +50,7 @@
             >
                 
                 <template v-slot:item="{ item }">
-                    <tr 
-                        v-bind:class="{'fire-row': item.fireDate}"
-                        v-if="filterFiredJobbers(item)"
-                    >
+                    <tr v-bind:class="{'fire-row': item.fireDate}">
                         <td>
                             <v-checkbox
                                 v-if="!item.fireDate"
@@ -65,8 +64,8 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.companyName }}</td>
                         <td>{{ item.positionName }}</td>
-                        <td>{{ item.hireDate }}</td>
-                        <td>{{ item.fireDate }}</td>
+                        <td>{{ normalDate(item.hireDate) }}</td>
+                        <td>{{ normalDate(item.fireDate) }}</td>
                         <td @click="openDialog([
                             { column: 'Зарплата', name: item.name, enable: !item.fireDate },
                             { valueName: 'salary',   value: item.salary   },
@@ -166,7 +165,7 @@
 
         data(){
             return {
-                showFiredJobbers: true,
+                showFiredJobbers: false,
                 showDialog: false,
                 dialogVars: [
                     {
@@ -301,9 +300,32 @@
             isSelectedEmpty () {
                 return this.selected.length === 0
             },
+
+            currentJobbers () {
+                if (this.showFiredJobbers) {
+                    return this.jobbers
+                } else {
+                    const realJobbers = [];
+                    for (var i = 0; i < this.jobbers.length; i++) {
+                        if (!this.jobbers[i].fireDate) {
+                            realJobbers.push(this.jobbers[i])
+                        }
+                    }
+                    return realJobbers
+                }
+            },
+
         },
 
         methods: {
+
+            normalDate (date) {
+                if (date !== null) {
+                    return date.split('-').reverse().join('.')
+                } else {
+                    return null  
+                }
+            },
 
             filterFiredJobbers (item) {
                 return !item.fireDate || this.showFiredJobbers
