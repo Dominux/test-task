@@ -54,9 +54,28 @@
                         <td>{{ item.positionName }}</td>
                         <td>{{ item.hireDate }}</td>
                         <td>{{ item.fireDate }}</td>
-                        <td @click="openDialog('Зарплата', item.salary, item.name)">{{ item.salary }}₽ ({{ item.fraction }}%)</td>
-                        <td>{{ item.base }}₽</td>
-                        <td>{{ item.advance }}₽</td>
+                        <td @click="openDialog([
+                            { column: 'Зарплата', name:  item.name },
+                            { valueName: 'salary',  value: item.salary   },
+                            { valueName: 'fraction', value: item.fraction }
+                            ])"
+                        >
+                            {{ item.salary }}₽ ({{ item.fraction }}%)
+                        </td>
+                        <td @click="openDialog([
+                            { column: 'База', name:  item.name },
+                            { valueName: 'base',  value: item.base },
+                            ])"
+                        >
+                            {{ item.base }}₽
+                        </td>
+                        <td @click="openDialog([
+                            { column: 'Аванс', name:  item.name },
+                            { valueName: 'advance',  value: item.advance },
+                            ])"
+                        >
+                            {{ item.advance }}₽
+                        </td>
                         <td>
                             <v-checkbox 
                                 color="green"
@@ -82,9 +101,16 @@
                     lazy-validation
                   >
                     <v-text-field
-                      v-bind:label="dialogVars.title"
-                      v-model="dialogVars.value"
-                      required
+                        v-bind:label="dialogVars[0].column"
+                        v-model="dialogVars[1].value"
+                        required
+                    ></v-text-field>
+
+                    <v-text-field
+                        v-if="dialogVars[0].column == 'Зарплата'"
+                        label="Процент"
+                        v-model="dialogVars[2].value"
+                        required
                     ></v-text-field>
 
                     <v-btn
@@ -123,11 +149,20 @@
             return {
                 showFiredJobbers: true,
                 showDialog: false,
-                dialogVars: {
-                    title: null,
-                    value: null,
-                    name: null,
-                },
+                dialogVars: [
+                    {
+                        column: null,
+                        name: null,
+                    },
+                    {
+                        valueName: null,
+                        value: null,
+                    },
+                    {
+                        valueName: null,
+                        value: null,
+                    },
+                ],
                 search: null,
                 selected: [],
                 headers: [
@@ -235,26 +270,42 @@
         },
 
         methods: {
+
             filterFiredJobbers (item) {
                 return !item.fireDate || this.showFiredJobbers
             },
 
-            openDialog (title, value, name) {
-                this.showDialog       = true;
-
-                this.dialogVars.title = title;
-                this.dialogVars.value = value;
-                this.dialogVars.name  = name;
+            openDialog (arr) {
+                for (var i = 0; i < arr.length; i++) {
+                    if (i == 0){
+                        this.dialogVars[i].column    = arr[i].column;
+                        this.dialogVars[i].name      = arr[i].name;
+                    } else {
+                        this.dialogVars[i].valueName = arr[i].valueName;
+                        this.dialogVars[i].value     = arr[i].value;
+                    }
+                }
+                this.showDialog = true;
             },
 
             save () {
+
                 for (var i = 0; i < this.jobbers.length; i++) {
-                    if (this.jobbers[i].name == this.dialogVars.name) {
-                        this.jobbers[i].salary = this.dialogVars.value;
-                        this.showDialog = false;
+                    if (this.jobbers[i].name == this.dialogVars[0].name) {
                         break;
                     }
                 }
+
+                for (var j = 0; j < Object.keys(this.jobbers[i]).length; j++) {
+                    if (Object.keys(this.jobbers[i])[j] == this.dialogVars[1].valueName) {
+                        this.jobbers[i][this.dialogVars[1].valueName] = this.dialogVars[1].value;
+                    } else if (Object.keys(this.jobbers[i])[j] == this.dialogVars[2].valueName) {
+                        this.jobbers[i][this.dialogVars[2].valueName] = this.dialogVars[2].value;
+                    }
+                }
+
+                this.showDialog = false;
+
             },
 
             cancel () {
