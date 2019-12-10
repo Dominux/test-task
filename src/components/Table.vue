@@ -41,6 +41,7 @@
                 :headers="headers"
                 :items="currentJobbers"
                 :search="search"
+                @toggle-select-all="selectAll()"
                 item-key="name"
                 v-model="selected"
                 show-select
@@ -115,6 +116,7 @@
                 </template>
 
             </v-data-table>
+
         </v-card>
         
         <v-container 
@@ -327,13 +329,7 @@
                 if (this.showFiredJobbers) {
                     return this.jobbers
                 } else {
-                    const realJobbers = [];
-                    for (var i = 0; i < this.jobbers.length; i++) {
-                        if (!this.jobbers[i].fireDate) {
-                            realJobbers.push(this.jobbers[i])
-                        }
-                    }
-                    return realJobbers
+                    return this.notFiredJobbers()
                 }
             },
 
@@ -359,6 +355,25 @@
                 } else {
                     return false
                 }
+            },
+
+            selectAll() {
+                if (this.selected.length == 0) {
+                    this.selected = this.notFiredJobbers()
+                } else {
+                    this.selected = []
+                }
+                
+            },
+
+            notFiredJobbers () {
+                const realJobbers = [];
+                for (var i = 0; i < this.jobbers.length; i++) {
+                    if (!this.jobbers[i].fireDate) {
+                        realJobbers.push(this.jobbers[i])
+                    }
+                }
+                return realJobbers
             },
 
             openDialog (arr) {
