@@ -46,56 +46,72 @@
                 show-select
                 class="elevation-1"
             >
-                
-                <template v-slot:item="props">
-                    <tr v-bind:class="{'fire-row': props.item.fireDate}">
-                        <td>
-                            <v-checkbox
-                                v-if="!props.item.fireDate"
-                                color="green"
-                                v-model="selected" 
-                                :value="props.item" 
-                                style="margin: 0px; padding: 0px" 
-                                hide-details 
-                            />
-                        </td>
-                        <td>{{ props.item.name }}</td>
-                        <td>{{ props.item.companyName }}</td>
-                        <td>{{ props.item.positionName }}</td>
-                        <td>{{ normalDate(props.item.hireDate) }}</td>
-                        <td>{{ normalDate(props.item.fireDate) }}</td>
-                        <td @click="openDialog([
-                            { column: 'Зарплата', name: props.item.name, enable: !props.item.fireDate },
-                            { valueName: 'salary',   value: props.item.salary   },
-                            { valueName: 'fraction', value: props.item.fraction }
-                            ])"
-                        >
-                            {{ props.item.salary }}₽ ({{ props.item.fraction }}%)
-                        </td>
-                        <td @click="openDialog([
-                            { column: 'База', name: props.item.name, enable: !props.item.fireDate },
-                            { valueName: 'base', value: props.item.base },
-                            ])"
-                        >
-                            {{ props.item.base }}₽
-                        </td>
-                        <td @click="openDialog([
-                            { column: 'Аванс', name: props.item.name, enable: !props.item.fireDate },
-                            { valueName: 'advance', value: props.item.advance },
-                            ])"
-                        >
-                            {{ props.item.advance }}₽
-                        </td>
-                        <td>
-                            <v-checkbox 
-                                color="green"
-                                v-model="props.item.byHours" 
-                                style="margin: 0px; padding: 0px" 
-                                hide-details
-                                :disabled="isDisabledByHours(props.item)"
-                            />
-                        </td>
-                    </tr>
+
+                <template v-slot:item.data-table-select="props">
+                    <div>
+                        <v-checkbox
+                            v-if="!props.item.fireDate"
+                            color="green"
+                            v-model="selected" 
+                            :value="props.item" 
+                            style="margin: 0px; padding: 0px" 
+                            hide-details 
+                        />
+                    </div>
+                </template>
+                <template v-slot:item.name="props">
+                    <div>{{ props.item.name }}</div>
+                </template>
+                <template v-slot:item.companyName="props">
+                    <div>{{ props.item.companyName }}</div>
+                </template>
+                <template v-slot:item.positionName="props">
+                    <div>{{ props.item.positionName }}</div>
+                </template>
+                <template v-slot:item.hireDate="props">
+                    <div>{{ normalDate(props.item.hireDate) }}</div>
+                </template>
+                <template v-slot:item.fireDate="props">
+                    <div>{{ normalDate(props.item.fireDate) }}</div>
+                </template>
+                <template v-slot:item.salary="props">
+                    <div @click="openDialog([
+                        { column: 'Зарплата', name: props.item.name, enable: !props.item.fireDate },
+                        { valueName: 'salary',   value: props.item.salary   },
+                        { valueName: 'fraction', value: props.item.fraction }
+                        ])"
+                    >
+                        {{ props.item.salary }}₽ ({{ props.item.fraction }}%)
+                    </div>
+                </template>
+                <template v-slot:item.base="props">
+                    <div @click="openDialog([
+                        { column: 'База', name: props.item.name, enable: !props.item.fireDate },
+                        { valueName: 'base', value: props.item.base },
+                        ])"
+                    >
+                        {{ props.item.base }}₽
+                    </div>
+                </template>
+                <template v-slot:item.advance="props">
+                    <div @click="openDialog([
+                        { column: 'Аванс', name: props.item.name, enable: !props.item.fireDate },
+                        { valueName: 'advance', value: props.item.advance },
+                        ])"
+                    >
+                        {{ props.item.advance }}₽
+                    </div>
+                </template>
+                <template v-slot:item.byHours="props">
+                    <td>
+                        <v-checkbox 
+                            color="green"
+                            v-model="props.item.byHours" 
+                            style="margin: 0px; padding: 0px" 
+                            hide-details
+                            :disabled="isDisabledByHours(props.item)"
+                        />
+                    </td>
                 </template>
 
             </v-data-table>
@@ -111,42 +127,42 @@
                 raised
             >
                 <v-card-text class="justify-center">
-                        <v-col>
-                            <v-row justify="center">
-                                <v-col cols="12" md="6">
-                                    <v-text-field
-                                        v-bind:label="dialogVars[0].column"
-                                        v-model="dialogVars[1].value"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col md="6">
-                                    <v-text-field
-                                        v-if="dialogVars[0].column == 'Зарплата'"
-                                        label="Процент"
-                                        v-model="dialogVars[2].value"
-                                    ></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row justify="center">    
-                                <v-btn
-                                  color="success"
-                                  class="mr-4"
-                                  @click="cancel()"
-                                  text
-                                >
-                                  Отменить
-                                </v-btn>
+                    <v-col>
+                        <v-row justify="center">
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    v-bind:label="dialogVars[0].column"
+                                    v-model="dialogVars[1].value"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col md="6">
+                                <v-text-field
+                                    v-if="dialogVars[0].column == 'Зарплата'"
+                                    label="Процент"
+                                    v-model="dialogVars[2].value"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row justify="center">    
+                            <v-btn
+                              color="success"
+                              class="mr-4"
+                              @click="cancel()"
+                              text
+                            >
+                              Отменить
+                            </v-btn>
 
-                                <v-btn
-                                  color="success"
-                                  class="mr-4"
-                                  @click="save()"
-                                  text
-                                >
-                                  Сохранить
-                                </v-btn>
-                            </v-row>
-                        </v-col>    
+                            <v-btn
+                              color="success"
+                              class="mr-4"
+                              @click="save()"
+                              text
+                            >
+                              Сохранить
+                            </v-btn>
+                        </v-row>
+                    </v-col>    
                 </v-card-text>
 
             </v-card>
@@ -157,7 +173,6 @@
 </template>
 
 
-
 <script>
     export default {
 
@@ -165,6 +180,7 @@
             return {
                 showFiredJobbers: true,
                 showDialog: false,
+                rows: null,
                 dialogVars: [
                     {
                         column: null,
@@ -285,6 +301,14 @@
             }
         },
 
+        mounted () {
+            this.setRedRows ();
+        },
+
+        updated () {
+            this.setRedRows ();
+        },
+
         computed: {
 
             fireLabel () {
@@ -380,11 +404,21 @@
                 this.showDialog = false;
             },
 
+            setRedRows () {
+                const rows = document.getElementsByTagName('tr');
+                for (var i = 1; i < rows.length; i++) {
+                    if (rows[i].childElementCount !== 1) {
+                        if (rows[i].children[5].children[0].innerHTML) {
+                            rows[i].classList.add('fire-row')
+                        }
+                    }
+                }
+            },
+
         },
 
     }
 </script>
-
 
 
 <style>
