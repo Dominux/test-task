@@ -406,8 +406,12 @@
                 for (var j = 0; j < Object.keys(this.jobbers[i]).length; j++) {
                     if (Object.keys(this.jobbers[i])[j] == this.dialogVars[1].valueName) {
                         this.jobbers[i][this.dialogVars[1].valueName] = this.dialogVars[1].value;
+                        this.dialogVars[1].valueName = null;
+                        this.dialogVars[1].value = null;
                     } else if (Object.keys(this.jobbers[i])[j] == this.dialogVars[2].valueName) {
                         this.jobbers[i][this.dialogVars[2].valueName] = this.dialogVars[2].value;
+                        this.dialogVars[2].valueName = null;
+                        this.dialogVars[2].value = null;
                     }
                 }
 
