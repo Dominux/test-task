@@ -35,9 +35,7 @@
                         {{ fireLabel }}
                     </v-btn>
                 </v-layout>
-            </v-container>
-
-            <div>{{ sel }}</div>  
+            </v-container>  
 
             <v-data-table
                 :headers="headers"
@@ -165,7 +163,7 @@
 
         data(){
             return {
-                showFiredJobbers: false,
+                showFiredJobbers: true,
                 showDialog: false,
                 dialogVars: [
                     {
