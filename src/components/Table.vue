@@ -47,52 +47,52 @@
                 class="elevation-1"
             >
                 
-                <template v-slot:item="{ item }">
-                    <tr v-bind:class="{'fire-row': item.fireDate}">
+                <template v-slot:item="props">
+                    <tr v-bind:class="{'fire-row': props.item.fireDate}">
                         <td>
                             <v-checkbox
-                                v-if="!item.fireDate"
+                                v-if="!props.item.fireDate"
                                 color="green"
                                 v-model="selected" 
-                                :value="item" 
+                                :value="props.item" 
                                 style="margin: 0px; padding: 0px" 
                                 hide-details 
                             />
                         </td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.companyName }}</td>
-                        <td>{{ item.positionName }}</td>
-                        <td>{{ normalDate(item.hireDate) }}</td>
-                        <td>{{ normalDate(item.fireDate) }}</td>
+                        <td>{{ props.item.name }}</td>
+                        <td>{{ props.item.companyName }}</td>
+                        <td>{{ props.item.positionName }}</td>
+                        <td>{{ normalDate(props.item.hireDate) }}</td>
+                        <td>{{ normalDate(props.item.fireDate) }}</td>
                         <td @click="openDialog([
-                            { column: 'Зарплата', name: item.name, enable: !item.fireDate },
-                            { valueName: 'salary',   value: item.salary   },
-                            { valueName: 'fraction', value: item.fraction }
+                            { column: 'Зарплата', name: props.item.name, enable: !props.item.fireDate },
+                            { valueName: 'salary',   value: props.item.salary   },
+                            { valueName: 'fraction', value: props.item.fraction }
                             ])"
                         >
-                            {{ item.salary }}₽ ({{ item.fraction }}%)
+                            {{ props.item.salary }}₽ ({{ props.item.fraction }}%)
                         </td>
                         <td @click="openDialog([
-                            { column: 'База', name: item.name, enable: !item.fireDate },
-                            { valueName: 'base', value: item.base },
+                            { column: 'База', name: props.item.name, enable: !props.item.fireDate },
+                            { valueName: 'base', value: props.item.base },
                             ])"
                         >
-                            {{ item.base }}₽
+                            {{ props.item.base }}₽
                         </td>
                         <td @click="openDialog([
-                            { column: 'Аванс', name: item.name, enable: !item.fireDate },
-                            { valueName: 'advance', value: item.advance },
+                            { column: 'Аванс', name: props.item.name, enable: !props.item.fireDate },
+                            { valueName: 'advance', value: props.item.advance },
                             ])"
                         >
-                            {{ item.advance }}₽
+                            {{ props.item.advance }}₽
                         </td>
                         <td>
                             <v-checkbox 
                                 color="green"
-                                v-model="item.byHours" 
+                                v-model="props.item.byHours" 
                                 style="margin: 0px; padding: 0px" 
                                 hide-details
-                                :disabled="isDisabledByHours(item)"
+                                :disabled="isDisabledByHours(props.item)"
                             />
                         </td>
                     </tr>
