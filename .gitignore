@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 /dist
-db.sqlite3
 test_task_venv
 
 # local env files
