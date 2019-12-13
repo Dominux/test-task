@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 ]
 
 GRAPHENE = {
-    'SCHEMA': 'test_task.schema.schema'
+    'SCHEMA': 'test_task.graphql.schema.schema'
 }
 
 MIDDLEWARE = [
