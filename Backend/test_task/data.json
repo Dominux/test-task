@@ -1,0 +1,114 @@
+[
+    {
+        "pk": 0,
+        "model": "test_task_app.occupation",
+        "fields": {
+            "name": "Джордж Вашингтон",
+            "company_name": "ООО \"Синергия\"",
+            "position_name": "Первый президент США",
+            "hire_date": "1789-04-30",
+            "fire_date": "1797-03-04",
+            "salary": 1000,
+            "fraction": 100,
+            "base": 1000,
+            "advance": 1000,
+            "by_hours": false
+        }
+    },
+    {
+        "pk": 1,
+        "model": "test_task_app.occupation",
+        "fields": {
+            "name": "Ричард I Львиное Сердце",
+            "company_name": "ООО \"Синергия\"",
+            "position_name": "Король Англии",
+            "hire_date": "1189-01-01",
+            "fire_date": "1199-05-17",
+            "salary": 1000,
+            "fraction": 100,
+            "base": 1000,
+            "advance": 1000,
+            "by_hours": true
+        }
+    },
+    {
+        "pk": 2,
+        "model": "test_task_app.occupation",
+        "fields": {
+            "name": "Джейсон Стейтем",
+            "company_name": "ООО \"Синергия\"",
+            "position_name": "Бейкон",
+            "hire_date": "1998-09-01",
+            "fire_date": null,
+            "salary": 1000,
+            "fraction": 100,
+            "base": 1000,
+            "advance": 1000,
+            "by_hours": false
+        }
+    },
+    {
+        "pk": 3,
+        "model": "test_task_app.occupation",
+        "fields": {
+            "name": "Тарантино К. Дж.",
+            "company_name": "ООО \"Синергия\"",
+            "position_name": "Джимми",
+            "hire_date": "1994-04-15",
+            "fire_date": null,
+            "salary": 1000,
+            "fraction": 100,
+            "base": 1000,
+            "advance": 1000,
+            "by_hours": false
+        }
+    },
+    {
+        "pk": 4,
+        "model": "test_task_app.occupation",
+        "fields": {
+            "name": "Камбербэтч Б.",
+            "company_name": "ООО \"Синергия\"",
+            "position_name": "Смауг",
+            "hire_date": "1000-01-01",
+            "fire_date": "2941-10-09",
+            "salary": 1000,
+            "fraction": 100,
+            "base": 1000,
+            "advance": 1000,
+            "by_hours": false
+        }
+    },
+    {
+        "pk": 5,
+        "model": "test_task_app.occupation",
+        "fields": {
+            "name": "Крузенштерн И. Ф.",
+            "company_name": "ООО \"Синергия\"",
+            "position_name": "Человек и пароход",
+            "hire_date": "1770-11-08",
+            "fire_date": null,
+            "salary": 1000,
+            "fraction": 100,
+            "base": 1000,
+            "advance": 1000,
+            "by_hours": false
+        }
+    },
+    {
+        "pk": 6,
+        "model": "test_task_app.occupation",
+        "fields": {
+            "name": "Бендер С. Р.",
+            "company_name": "\"Planet Express\"",
+            "position_name": "Робот-сгибальщик",
+            "hire_date": "2997-03-27",
+            "fire_date": null,
+            "salary": 1000,
+            "fraction": 100,
+            "base": 1000,
+            "advance": 1000,
+            "by_hours": true
+        }
+    }
+]

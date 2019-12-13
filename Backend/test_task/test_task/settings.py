@@ -37,8 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Libraries
+    'graphene_django',
+
+    # My apps
     'test_task_app',
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'test_task.schema.schema'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

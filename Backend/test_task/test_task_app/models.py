@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Jobber(models.Model):
+class Occupation(models.Model):
     name          = models.CharField(max_length=200)
     company_name  = models.CharField(max_length=100)
     position_name = models.CharField(max_length=100)
