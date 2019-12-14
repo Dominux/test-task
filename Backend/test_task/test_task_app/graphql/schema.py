@@ -48,8 +48,19 @@ class OccupationMutation(graphene.Mutation):
 
     occupation = graphene.Field(OccupationType)
     
-    def mutate(self, info, name, companyName, positionName, hireDate, fireDate, salary, fraction, base, advance, by_hours):
-        # new_id = Occupation.objects.latest('id').id + 1
+    def mutate(self, info, name, companyName, positionName, hireDate, salary, fraction, base, advance, by_hours, fireDate=None):
+        occupation = Occupation.objects.create(
+            name=name, 
+            company_name=companyName, 
+            position_name=positionName,
+            hire_date=hireDate,
+            fire_date=fireDate,
+            salary=salary,
+            fraction=fraction,
+            base=base,
+            advance=advance,
+            by_hours=by_hours
+        )
 
         occupation.name          = name
         occupation.company_name  = companyName
@@ -66,3 +77,4 @@ class OccupationMutation(graphene.Mutation):
 
 class Mutation(graphene.ObjectType):
     addOccupation = OccupationMutation.Field()
+
